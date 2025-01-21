@@ -36,6 +36,12 @@ let numero3 = document.getElementById ("num3");
 let numero4 = document.getElementById ("num4");
 let numero5 = document.getElementById ("num5");
 
+const countdown = document.getElementById ("countdown")
+const form = document.getElementById ("answers-form")
+const frase = document.getElementById ("instructions")
+const numbersList =document.getElementById ("numbers-list")
+
+
 // creo l'array vuoto per i numeri random
 let arrayRandom = []
 
@@ -48,16 +54,45 @@ function numberGeneration (numeri){
         numeri.push(Math.floor((Math.random() * 50) + 1)) 
         
     }
-    return arrayRandom
-    
-    
-    
-    
+    return arrayRandom  
 }
 
 console.log (numberGeneration (arrayRandom))
 
-function pushNumber (){
+// funzione per pushare gli elementi nel HTML 
+function pushNumber(array){
 
+    for (let i = 0; i < array.length; i++){
+        let lista = document.getElementById("num" + (i + 1));
+        lista.innerHTML = array[i];
+    }
 }
+pushNumber (arrayRandom)
+
+
+// funzione countdown
+let counter = 5
+let timer;
+
+function contatore (){
+    console.log( 'start' )
+    
+
+    //parte il contatore
+    timer = setInterval( function(){
+        countdown.innerHTML = counter--
+        if( counter === -2 ){
+            clearInterval(timer)
+            countdown.classList.add ("d-none");
+            form.classList.remove ("d-none");
+            frase.classList.add ("d-none");
+            numbersList.classList.add ("d-none");
+
+         }
+    }, 1000 )
+    
+}
+
+contatore ()
+
 
