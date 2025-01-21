@@ -30,69 +30,104 @@ Consigli del giorno:
 */
 
 
-let numero1 = document.getElementById ("num1");
-let numero2 = document.getElementById ("num2");
-let numero3 = document.getElementById ("num3");
-let numero4 = document.getElementById ("num4");
-let numero5 = document.getElementById ("num5");
+let numero1 = document.getElementById("num1");
+let numero2 = document.getElementById("num2");
+let numero3 = document.getElementById("num3");
+let numero4 = document.getElementById("num4");
+let numero5 = document.getElementById("num5");
 
-const countdown = document.getElementById ("countdown")
-const form = document.getElementById ("answers-form")
-const frase = document.getElementById ("instructions")
-const numbersList =document.getElementById ("numbers-list")
+
+
+
+const countdown = document.getElementById("countdown")
+const form = document.getElementById("answers-form")
+const frase = document.getElementById("instructions")
+const numbersList = document.getElementById("numbers-list")
 
 
 // creo l'array vuoto per i numeri random
 let arrayRandom = []
 
-
-
 //creo la funzione per generare numeri vuoti, li pusho dentro l'array vuoto, poi li inserisco nel Dom
-function numberGeneration (numeri){
-     
-    for (let i = 0; i < 5; i++){
-        numeri.push(Math.floor((Math.random() * 50) + 1)) 
-        
+function numberGeneration(numeri) {
+
+    for (let i = 0; i < 5; i++) {
+        numeri.push(Math.floor((Math.random() * 50) + 1))
+
     }
-    return arrayRandom  
+    return arrayRandom
 }
 
-console.log (numberGeneration (arrayRandom))
+console.log(numberGeneration(arrayRandom))
 
 // funzione per pushare gli elementi nel HTML 
-function pushNumber(array){
+function pushNumber(array) {
 
-    for (let i = 0; i < array.length; i++){
+    for (let i = 0; i < array.length; i++) {
         let lista = document.getElementById("num" + (i + 1));
         lista.innerHTML = array[i];
     }
 }
-pushNumber (arrayRandom)
+pushNumber(arrayRandom)
 
 
 // funzione countdown
 let counter = 5
 let timer;
 
-function contatore (){
-    console.log( 'start' )
-    
-
+function contatore() {
     //parte il contatore
-    timer = setInterval( function(){
+    timer = setInterval(function () {
         countdown.innerHTML = counter--
-        if( counter === -2 ){
+        if (counter === -1) {
             clearInterval(timer)
-            countdown.classList.add ("d-none");
-            form.classList.remove ("d-none");
-            frase.classList.add ("d-none");
-            numbersList.classList.add ("d-none");
+            countdown.classList.add("d-none");
+            form.classList.remove("d-none");
+            frase.classList.add("d-none");
+            numbersList.classList.add("d-none");
+        }
+    }, 1000)
 
-         }
-    }, 1000 )
-    
 }
 
-contatore ()
+contatore()
 
 
+
+
+
+
+const paragrafo = document.getElementById('instructions');
+let allInput = document.querySelectorAll(".form-control")
+let btn = document.querySelector("button")
+
+//array vuoto per i numeri che inseriscono le persone 
+
+
+//
+btn.addEventListener('click', function (event) {
+
+    let userInput = []
+    event.preventDefault()
+    for (let i = 0; i < allInput.length; i++) {
+        userInput.push(parseInt(allInput[i].value));
+        console.log(userInput)
+    } 
+    let conteggio = 0
+    for (let k = 0; k < userInput.length; k++) {
+        if (arrayRandom.includes(userInput[k])) {
+            conteggio++
+
+        }
+    }
+    console.log(conteggio)
+    form.classList.add ("d-none");
+    if (conteggio == 0){
+        instructions.insertAdjacentHTML('afterend', `<p id="result-message">Peccato! Hai indovinato ${conteggio}/5</p>`);
+    }else if (conteggio <= 3){
+        instructions.insertAdjacentHTML('afterend', `<p id="result-message">Bravo! Hai indovinato ${conteggio}/5</p>`);
+    } else {
+        instructions.insertAdjacentHTML('afterend', `<p id="result-message">Ottimo! Hai indovinato ${conteggio}/5</p>`);
+    }
+    
+})
